@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-ink: 11 11 15;
+    --color-mist: 107 114 128;
+    --color-canvas: 255 255 255;
+    --color-panel: 250 250 252;
+    --color-line: 228 228 235;
+  }
+  .dark {
+    --color-ink: 245 245 247;
+    --color-mist: 161 161 170;
+    --color-canvas: 13 13 16;
+    --color-panel: 20 20 24;
+    --color-line: 39 39 46;
+  }
+  body {
+    @apply bg-canvas text-ink transition-colors duration-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-surface {
+    @apply bg-canvas/70 backdrop-blur-glass border border-line shadow-glass;
+  }
+  .container-px {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+}
+
+/* Perspective root for 3D card children */
+.perspective-1000 {
+  perspective: 1000px;
+}
