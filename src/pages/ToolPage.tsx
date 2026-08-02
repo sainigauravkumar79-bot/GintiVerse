@@ -11,7 +11,7 @@ import { Star } from "lucide-react";
 
 export default function ToolPage() {
   const params = useParams();
-  const slug = "/" + (params["*"] ?? "");
+  const slug = "/" + (params.categoryId ?? "") + "/" + (params["*"] ?? "");
   const tool = getToolBySlug(slug);
   const [recent, setRecent] = useLocalStorage<string[]>("gintiverse-recent", []);
   const [favorites, setFavorites] = useLocalStorage<string[]>("gintiverse-favorites", []);
