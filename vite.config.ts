@@ -1,12 +1,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path"; // ← यह import ज़रूरी है
+import path from "path"; // ← यह ज़रूरी है
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // ← ये line डालें
+      "@": path.resolve(__dirname, "./src"),
+      "@hooks": path.resolve(__dirname, "./src/hooks"),   // ← नया
+      "@tools": path.resolve(__dirname, "./src/tools"),   // ← नया
+      // अगर और भी हैं (जैसे @utils, @components) तो यहाँ डालें
     },
   },
   build: {
