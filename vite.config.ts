@@ -1,11 +1,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path"; // ← यह import ज़रूरी है
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"), // ← ये line डालें
+    },
+  },
   build: {
-    // Keep the Three.js scene (added later, see README) in its own chunk so
-    // pages that don't use it never pay for it.
     rollupOptions: {
       output: {
         manualChunks: {
