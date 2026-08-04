@@ -1,50 +1,93 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ToolCard3D } from '@/components/ToolCard3D';
-import { getAllTools, getToolsByCategory, categories } from '@/registry/tools';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Hero } from "@/components/Hero";
+import { ToolCard3D } from "@/components/ToolCard3D";
+import { IconRenderer } from "@/components/IconRenderer";
+import { tools } from "@/registry/tools";
+import { categories } from "@/registry/categories";
+import type { CategoryMeta } from "@/registry/types";
+import { useSEO } from "@/seo/useSEO";
+import { generateOrganizationSchema } from "@/seo/schema";
 
-const Home: React.FC = () => {
-  // Featured tools (पहले 6)
-  const featured = getAllTools().slice(0, 6);
+const WHY_GINTIVERSE = [
+  { title: "Fast", body: "Every calculation runs instantly in your browser." },
+  { title: "Free", body: "No paywalls, no trial limits, no fine print." },
+  { title: "No signup", body: "Open a tool and use it. Nothing to create." },
+  { title: "Private", body: "Your inputs never leave your device." },
+];
+
+export default function Home() {
+  useSEO({
+    title: "Every calculation, conversion and everyday utility",
+    description: "GintiVerse is a free, fast, no-signup collection of calculators, converters and generators for everyday life and work.",
+    path: "/",
+    jsonLd: generateOrganizationSchema(),
+  });
+
+  const popular = tools.slice(0, 8);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Hero */}
-      <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-ink">GintiVerse – Every Tool You Need</h1>
-        <p className="text-mist mt-2 text-lg">
-          All calculators, converters and generators, in one place.
-        </p>
-      </section>
+    <div>
+      <Hero />
 
-      {/* Categories */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-ink mb-4">Categories</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              to={`/category/${cat.slug}`}
-              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition text-center"
-            >
-              <span className="text-xl block">{cat.icon}</span>
-              <span className="font-medium text-ink">{cat.name}</span>
-            </Link>
+      <section className="container-px mx-auto max-w-7xl py-16">
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">Popular tools</h2>
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {popular.map((tool, i) => (
+            <ToolCard3D key={tool.id} tool={tool} _index={i} />
           ))}
         </div>
       </section>
 
-      {/* Featured Tools */}
-      <section>
-        <h2 className="text-2xl font-semibold text-ink mb-4">⭐ Featured Tools</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((tool) => (
-            <ToolCard3D key={tool.slug} tool={tool} />
+      <section className="border-t border-line bg-panel py-16">
+        <div className="container-px mx-auto max-w-7xl">
+          <h2 className="text-2xl font-semibold text-ink sm:text-3xl">Browse by category</h2>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map((cat: CategoryMeta, i) => (
+              <motion.div
+                key={cat.id}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+              >
+                <Link to={cat.path} className="glass-surface block rounded-card p-6 transition hover:shadow-glass-hover">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                    <IconRenderer name={categoryIcon(cat.id)} size={20} />
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-semibold text-ink">{cat.name}</h3>
+                  <p className="mt-1.5 text-sm text-mist">{cat.description}</p>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="container-px mx-auto max-w-7xl py-16">
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">Why GintiVerse</h2>
+        <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {WHY_GINTIVERSE.map((item) => (
+            <div key={item.title} className="rounded-card border border-line p-5">
+              <p className="font-display text-lg font-semibold text-ink">{item.title}</p>
+              <p className="mt-1 text-sm text-mist">{item.body}</p>
+            </div>
           ))}
         </div>
       </section>
     </div>
   );
-};
+}
 
-export default Home;
+function categoryIcon(id: string) {
+  const map: Record<string, string> = {
+    calculators: "calculator",
+    finance: "landmark",
+    "date-time": "clock",
+    converters: "ruler",
+    health: "heart-pulse",
+    "developer-tools": "code",
+    generators: "sparkles",
+  };
+  return map[id] ?? "calculator";
+}
