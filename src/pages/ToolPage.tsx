@@ -43,6 +43,10 @@ export default function ToolPage() {
   if (!tool) return <Navigate to="/tools" replace />;
 
   const Component = tool.component;
+  <div className="mt-8">
+  {tool.isHealthTool && <HealthDisclaimer />} {/* यह line जोड़ें */}
+  <Component />
+</div>
   const related = tool.relatedTools.map(getToolById).filter((t): t is NonNullable<typeof t> => !!t);
   const isFavorite = favorites.includes(tool.id);
 
