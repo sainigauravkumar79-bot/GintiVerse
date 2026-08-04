@@ -8,7 +8,7 @@ import { useSEO } from "@/seo/useSEO";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { generateBreadcrumbSchema, generateFAQSchema, generateWebApplicationSchema } from "@/seo/schema";
 import { Star } from "lucide-react";
-
+import { HealthDisclaimer } from "@/components/HealthDisclaimer"; // यह line जोड़ें
 export default function ToolPage() {
   const params = useParams();
   const slug = "/" + (params.categoryId ?? "") + "/" + (params["*"] ?? "");
