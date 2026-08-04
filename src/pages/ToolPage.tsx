@@ -8,10 +8,11 @@ import { useSEO } from "@/seo/useSEO";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { generateBreadcrumbSchema, generateFAQSchema, generateWebApplicationSchema } from "@/seo/schema";
 import { Star } from "lucide-react";
-import { HealthDisclaimer } from "@/components/HealthDisclaimer"; // यह line जोड़ें
+import { HealthDisclaimer } from "@/components/HealthDisclaimer"; // if you added this
+
 export default function ToolPage() {
   const params = useParams();
-  const slug = "/" + (params.categoryId ?? "") + "/" + (params["*"] ?? "");
+  const slug = "/" + (params["*"] ?? "");
   const tool = getToolBySlug(slug);
   const [recent, setRecent] = useLocalStorage<string[]>("gintiverse-recent", []);
   const [favorites, setFavorites] = useLocalStorage<string[]>("gintiverse-favorites", []);
@@ -43,10 +44,6 @@ export default function ToolPage() {
   if (!tool) return <Navigate to="/tools" replace />;
 
   const Component = tool.component;
-  <div className="mt-8">
-  {tool.isHealthTool && <HealthDisclaimer />} {/* यह line जोड़ें */}
-  <Component />
-</div>
   const related = tool.relatedTools.map(getToolById).filter((t): t is NonNullable<typeof t> => !!t);
   const isFavorite = favorites.includes(tool.id);
 
@@ -72,6 +69,7 @@ export default function ToolPage() {
       </div>
 
       <div className="mt-8">
+        {tool.isHealthTool && <HealthDisclaimer />}
         <Component />
       </div>
 
@@ -108,7 +106,7 @@ export default function ToolPage() {
           <h2 className="text-xl font-semibold text-ink">Related tools</h2>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {related.map((t, i) => (
-              <ToolCard3D key={t.id} tool={t} index={i} />
+              <ToolCard3D key={t.id} tool={t} _index={i} />
             ))}
           </div>
         </section>
@@ -120,4 +118,4 @@ export default function ToolPage() {
       </p>
     </div>
   );
-        }
+}
