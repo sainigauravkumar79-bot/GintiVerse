@@ -65,7 +65,7 @@ export default function AllTools() {
           <h2 className="text-lg font-semibold text-ink">Recently used</h2>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {recentTools.map((t, i) => (
-              <ToolCard3D key={t.id} tool={t} index={i} />
+              <ToolCard3D key={t.id} tool={t} _index={i} />
             ))}
           </div>
         </section>
@@ -74,7 +74,7 @@ export default function AllTools() {
       <section className="mt-10">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filtered.map((tool, i) => (
-            <ToolCard3D key={tool.id} tool={tool} index={i} />
+            <ToolCard3D key={tool.id} tool={tool} _index={i} />
           ))}
         </div>
         {filtered.length === 0 && <p className="mt-6 text-mist">No tools match these filters yet.</p>}
