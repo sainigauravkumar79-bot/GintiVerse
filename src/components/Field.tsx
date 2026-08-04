@@ -6,7 +6,6 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-/** A single labeled input, styled consistently across every tool. */
 export function Field({ label, suffix, error, id, ...rest }: FieldProps) {
   const inputId = id ?? label.toLowerCase().replace(/\s+/g, "-");
   return (
@@ -17,7 +16,7 @@ export function Field({ label, suffix, error, id, ...rest }: FieldProps) {
       <div className="relative">
         <input
           id={inputId}
-          className={`w-full rounded-2xl border bg-white px-4 py-3 text-base text-ink shadow-sm outline-none transition
+          className={`w-full rounded-2xl border bg-canvas px-4 py-3 text-base text-ink shadow-sm outline-none transition
             focus:border-accent focus:ring-2 focus:ring-accent/20
             ${error ? "border-red-400" : "border-line"}`}
           aria-invalid={!!error}
