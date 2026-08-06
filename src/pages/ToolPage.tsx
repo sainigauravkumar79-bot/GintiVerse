@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import { useLocation, Navigate, Link } from "react-router-dom";
 import { getToolBySlug, getToolById } from "@/registry/tools";
 import { getCategory } from "@/registry/categories";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -11,8 +11,10 @@ import { Star } from "lucide-react";
 import { HealthDisclaimer } from "@/components/HealthDisclaimer"; // if you added this
 
 export default function ToolPage() {
-  const params = useParams();
-  const slug = "/" + (params["*"] ?? "");
+  // Using the full URL path (not the split :categoryId + * params) so the
+  // slug always matches the registry exactly, e.g. "/date-time/age".
+  const location = useLocation();
+  const slug = location.pathname.replace(/\/+$/, "") || "/";
   const tool = getToolBySlug(slug);
   const [recent, setRecent] = useLocalStorage<string[]>("gintiverse-recent", []);
   const [favorites, setFavorites] = useLocalStorage<string[]>("gintiverse-favorites", []);
@@ -118,4 +120,4 @@ export default function ToolPage() {
       </p>
     </div>
   );
-}
+      }
