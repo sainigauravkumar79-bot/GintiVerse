@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "incremental": false,
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,
@@ -17,8 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@hooks/*": ["src/hooks/*"],   // ← नया
-      "@tools/*": ["src/tools/*"]    // ← नया
+      "@hooks/*": ["src/hooks/*"],
+      "@tools/*": ["src/tools/*"]
     }
   },
   "include": ["src"]
